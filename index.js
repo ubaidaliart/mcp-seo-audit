@@ -1,14 +1,27 @@
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
+app.use(cors()); // ← Enables CORS support
 app.use(bodyParser.json());
 
-// MCP Tool: SEO Audit
+// Optional: root message
+app.get("/", (req, res) => {
+  res.json({
+    message: "MCP SEO Audit Server",
+    version: "1.0.0",
+    endpoints: {
+      "POST /tool/seo_audit": "Perform SEO audit on a URL"
+    }
+  });
+});
+
+// Main MCP tool endpoint
 app.post("/tool/seo_audit", (req, res) => {
   const { url } = req.body;
 
-  // Simulate an SEO audit (replace with real logic)
+  // Simulated audit result
   const result = {
     score: 72,
     issues: [
@@ -18,8 +31,8 @@ app.post("/tool/seo_audit", (req, res) => {
     ],
     recommendations: [
       "Add a unique meta description",
-      "Use only one H1 per page",
-      "Implement structured data (JSON-LD)"
+      "Use only one H1 tag",
+      "Add schema markup with JSON-LD"
     ]
   };
 
@@ -30,3 +43,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`MCP SEO Audit server running on port ${PORT}`);
 });
+
